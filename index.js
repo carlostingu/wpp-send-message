@@ -68,9 +68,9 @@ const ExcelJS = require('exceljs');
                 if (keywords.indexOf(message.body) != -1 && clients.indexOf(message.from) == -1 && message.isGroupMsg === false) {
                     clients.push(message.from);
 
-                    // console.log(message);
-
                     try {
+                        await sleep(5000);
+
                         await client.sendText(message.from, `Em breve um de nossos atendentes entrará em contato com você...`);
                     } catch (error) {
                         console.log(`Houve um erro ao enviar a mensagem...`);
@@ -120,9 +120,9 @@ const ExcelJS = require('exceljs');
                         
                         var name = contact.getCell(2).value;
 
-                        // if (index < 5) {
+                        if (index < 5) {
                             try {
-                                // index++;
+                                index++;
 
                                 var message = `Olá ${name} Ganhe desconto especial retornando para a *Carioca Proteção Veicular* agora mesmo! Você pode ganhar  *Até 20% de desconto todos os meses no seu Boleto e Adesão Grátis*, uma associação com milhares de associados satisfeitos. *VEM PARA CARIOCA VOCÊ TAMBÉM, VEM!* \n 1 - Sim \n 2 - Não`;
                                 
@@ -140,12 +140,10 @@ const ExcelJS = require('exceljs');
                                     }
                                 });
                             }
-
-                            await sleep(120000);
-                        // } else {
-                        //     index = 0;
-                        //     await sleep(600000);
-                        // }
+                        } else {
+                            index = 0;
+                            await sleep(600000);
+                        }
                     }
                 }
             }
