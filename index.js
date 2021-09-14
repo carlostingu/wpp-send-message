@@ -1,10 +1,12 @@
 require("dotenv").config();
 
-
+/* Core */
 const fs = require('fs');
+
+/* Modules */
 const wpp = require("./src/wpp");
 const mail = require("./src/mail");
-const ExcelJS = require('exceljs');
+const Excel = require('./src/excel');
 
 (async () => {
     /* 
@@ -108,7 +110,7 @@ const ExcelJS = require('exceljs');
             });
             
             var index = 0;
-            var listInactives = new ExcelJS.stream.xlsx.WorkbookReader('./files/inativos.xlsx');
+            var listInactives = new Excel.stream.xlsx.WorkbookReader('./files/inativos.xlsx');
             for await (var contacts of listInactives) {
                 for await (var contact of contacts) {
                     var patternPhone = new RegExp(/\([1-9]{2}\)9[0-9]{4}\-[0-9]{4}/gmi);
