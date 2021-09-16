@@ -1,17 +1,17 @@
 {
-  "name": "wpp-send-message",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": ""
-  },
-  "author": "CarlosTingu",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^10.0.0",
-    "exceljs": "^4.3.0",
-    "nodemailer": "^6.6.3",
-    "venom-bot": "^3.1.4"
-  }
+    "name": "wpp-send-message",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": ""
+    },
+    "author": "CarlosTingu",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "exceljs": "^4.3.0",
+        "nodemailer": "^6.6.3",
+        "venom-bot": "^3.1.4"
+    }
 }

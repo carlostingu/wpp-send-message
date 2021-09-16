@@ -17,7 +17,7 @@ const Excel = require('./src/excel');
     */
 
     const client = await wpp.create(
-        "inactives",
+        "session",
         (base64Qrimg, asciiQR, attempts, urlCode) => {
             console.log(asciiQR);
         },
@@ -33,41 +33,43 @@ const Excel = require('./src/excel');
     var day = String(d.getDate());
 
     var month = String(d.getMonth() + 1);
-    if (month.length == 1) {
-        month = `0${month}`;
-    }
+    
 
     var year = d.getFullYear();
     var dayWeek = d.getDay();
 
     var hour = String(d.getHours());
-    if (hour.length == 1) {
-        hour = `0${hour}`;
-    }
-
+   
     var minutes = String(d.getMinutes());
-    if (minutes.length == 1) {
-        minutes = `0${minutes}`;
-    }
-
+    
     var seconds = String(d.getSeconds());
-    if (seconds.length == 1) {
-        seconds = `0${seconds}`;
-    }
-
-    var logDate = `${day}/${month}/${year} às ${hour}:${minutes}:${seconds}`;
 
     const keywords = [
-        "1",
-        "Sim",
-        "sim"
+        "2",
+        "não",
+        "nao"
     ];
 
     const clients = [];
     while (true) {
         if (dayWeek != 0 && hour > 7 && hour < 20) {
+            if (month.length == 1) {
+                month = `0${month}`;
+            }
+            if (hour.length == 1) {
+                hour = `0${hour}`;
+            }
+            if (minutes.length == 1) {
+                minutes = `0${minutes}`;
+            }
+            if (seconds.length == 1) {
+                seconds = `0${seconds}`;
+            }
+
+            var logDate = `${day}/${month}/${year} às ${hour}:${minutes}:${seconds}`;
+
             client.onMessage(async (message) => {
-                if (keywords.indexOf(message.body) != -1 && clients.indexOf(message.from) == -1 && message.isGroupMsg === false) {
+                if (keywords.indexOf(message.body) == -1 && clients.indexOf(message.from) == -1 && message.isGroupMsg === false) {
                     clients.push(message.from);
 
                     try {
@@ -85,27 +87,27 @@ const Excel = require('./src/excel');
                     }
         
                     // create reusable transporter object using the default SMTP transport
-                    let transporter = mail.createTransport({
-                        host: process.env.EMAIL_HOST,
-                        port: process.env.EMAIL_PORT,
-                        secure: true, // true for 465, false for other ports
-                        auth: {
-                            user: process.env.EMAIL_USER, // generated ethereal user
-                            pass: process.env.EMAIL_PASS, // generated ethereal password
-                        },
-                    });
+                    // let transporter = mail.createTransport({
+                    //     host: process.env.EMAIL_HOST,
+                    //     port: process.env.EMAIL_PORT,
+                    //     secure: true, // true for 465, false for other ports
+                    //     auth: {
+                    //         user: process.env.EMAIL_USER, // generated ethereal user
+                    //         pass: process.env.EMAIL_PASS, // generated ethereal password
+                    //     },
+                    // });
         
-                    try {
-                        // send mail with defined transport object
-                        let info = await transporter.sendMail({
-                            from: `${process.env.EMAIL_NAME} ${process.env.EMAIL_USER}`, // sender address
-                            to: `Vendas, ${process.env.EMAIL_USER}`, // list of receivers
-                            subject: "Reativação", // Subject line
-                            html: `<b>Nome: ${message.sender.pushname ?? "S/N"} <br> Numero: ${message.sender.id.substr(2, 11)} <br> Mensagem: ${message.body}</b>`, // html body
-                        });
-                    } catch (error) {
-                        console.log(`Houve um erro ao enviar o e-mail...`);
-                    }
+                    // try {
+                    //     // send mail with defined transport object
+                    //     let info = await transporter.sendMail({
+                    //         from: `${process.env.EMAIL_NAME} ${process.env.EMAIL_USER}`, // sender address
+                    //         to: `Vendas, ${process.env.EMAIL_USER}`, // list of receivers
+                    //         subject: "Reativação", // Subject line
+                    //         html: `<b>Nome: ${message.sender.pushname ?? "S/N"} <br> Numero: ${message.sender.id.substr(2, 11)} <br> Mensagem: ${message.body}</b>`, // html body
+                    //     });
+                    // } catch (error) {
+                    //     console.log(`Houve um erro ao enviar o e-mail...`);
+                    // }
                 }
             });
             
